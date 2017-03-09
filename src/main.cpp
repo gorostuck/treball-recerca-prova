@@ -4,18 +4,18 @@
 
 void draw_line(SDL_Renderer* renderer, int begin_x, int begin_y, int end_x, int end_y)
 {
-  float v_1 = abs(end_x - begin_x);
-  float v_2 = abs(end_y - begin_y);
+  float v_1 = end_x - begin_x;
+  float v_2 = end_y - begin_y;
 
-  float t = 1/(v_1 + v_2);
+  float t = 1/(abs(v_1) + abs(v_2));
   v_1 *= t;
   v_2 *= t;
 
-  float point_x = end_x;
-  float point_y = end_y;
+  float point_x = begin_x;
+  float point_y = begin_y;
 
   
-  for (;point_x<begin_x && point_y<begin_y;point_x +=v_1, point_y +=v_2)
+  for (;(int)abs(point_x-begin_x)<1 && (int)abs(point_y-begin_y)<1;point_x +=v_1, point_y +=v_2)
     {
       SDL_RenderDrawPoint(renderer,
 			  (int) point_x,
@@ -51,10 +51,14 @@ int main(int argc, char* argv[])
       //draw_line(renderer, 0, 0, 512, 512/2);
       //draw_line(renderer, 0, 0, 512/2, 512);
 
-      draw_line(renderer, 512, 512, 0, 0);
-      draw_line(renderer, 512, 512/2, 0, 0);
-      draw_line(renderer, 512/2, 512, 0, 0);
-      
+      //for (int i=0;i<500;i+=100)
+      //for(int j=0; j<500;j+=100)
+	  {
+	    draw_line(renderer, 512, 100, 0, 100);
+	    draw_line(renderer, 100, 512, 100, 0);
+	    SDL_Delay(10);
+	    //      draw_line(renderer, 512/2, 512, 0, 0);
+	  }
       // END DRAW ZONE
 
       
